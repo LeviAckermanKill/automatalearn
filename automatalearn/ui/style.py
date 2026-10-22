@@ -10,10 +10,13 @@ def apply_custom_css() -> None:
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-    /* Remove Streamlit default header whitespace */
+    /* Header styling: transparent 2.5rem bar with visible sidebar toggle */
     header[data-testid="stHeader"] {
-        display: none !important;
-        height: 0px !important;
+        height: 2.5rem !important;
+        background: transparent !important;
+        visibility: visible !important;
+        display: block !important;
+        z-index: 1000 !important;
     }
 
     /* Reduce block-container top padding to eliminate empty gap above title */
@@ -44,12 +47,57 @@ def apply_custom_css() -> None:
     [data-testid="stIconMaterial"],
     span[class*="material"],
     .material-icons,
-    .material-symbols-rounded {
+    .material-symbols-rounded,
+    [data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"],
+    [data-testid="stSidebarCollapsedControl"] [data-testid="stIconMaterial"],
+    [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
+    [data-testid="collapsedControl"] [data-testid="stIconMaterial"],
+    [data-testid="stExpandSidebarButton"] span,
+    [data-testid="stSidebarCollapsedControl"] span,
+    [data-testid="stSidebarCollapseButton"] span,
+    [data-testid="collapsedControl"] span {
         font-family: "Material Symbols Rounded" !important;
         font-feature-settings: "liga" !important;
         -webkit-font-feature-settings: "liga" !important;
         letter-spacing: normal !important;
         text-transform: none !important;
+    }
+
+    /* Sidebar collapse & expand controls: visible, clickable, light indigo, above other layers */
+    [data-testid="stExpandSidebarButton"],
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="collapsedControl"] {
+        visibility: visible !important;
+        display: flex !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        z-index: 999999 !important;
+        color: #818CF8 !important;
+    }
+
+    [data-testid="stExpandSidebarButton"] button,
+    [data-testid="stSidebarCollapsedControl"] button,
+    [data-testid="stSidebarCollapseButton"] button,
+    [data-testid="collapsedControl"] button {
+        visibility: visible !important;
+        color: #818CF8 !important;
+        background: transparent !important;
+        border: none !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
+
+    [data-testid="stExpandSidebarButton"]:hover,
+    [data-testid="stSidebarCollapsedControl"]:hover,
+    [data-testid="stSidebarCollapseButton"]:hover,
+    [data-testid="collapsedControl"]:hover,
+    [data-testid="stExpandSidebarButton"] button:hover,
+    [data-testid="stSidebarCollapsedControl"] button:hover,
+    [data-testid="stSidebarCollapseButton"] button:hover,
+    [data-testid="collapsedControl"] button:hover {
+        color: #C7D2FE !important;
     }
 
     /* Reduced weight for section subheadings: ~1.15rem, muted slate */
@@ -440,10 +488,21 @@ def apply_custom_css() -> None:
         max-width: 100% !important;
     }
 
-    /* Hidden Streamlit Branding & Menus */
-    #MainMenu {visibility: hidden !important;}
-    footer {visibility: hidden !important;}
-    div[data-testid="stToolbar"] {visibility: hidden !important;}
+    /* Ensure Streamlit toolbar containing the sidebar expand control remains visible */
+    [data-testid="stToolbar"] {
+        visibility: visible !important;
+        background: transparent !important;
+    }
+
+    /* Hide only Deploy button, main menu, toolbar actions, and footer */
+    [data-testid="stDeployButton"],
+    [data-testid="stMainMenu"],
+    #MainMenu,
+    [data-testid="stToolbarActions"],
+    footer {
+        visibility: hidden !important;
+        display: none !important;
+    }
     </style>
     """
     st.markdown(css, unsafe_allow_html=True)
