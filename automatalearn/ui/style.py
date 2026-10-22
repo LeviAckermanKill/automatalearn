@@ -25,14 +25,31 @@ def apply_custom_css() -> None:
         max-width: 98% !important;
     }
 
-    /* Global typography & base styling */
-    html, body, [class*="css"], [class*="st-"] {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Global base styling */
+    html, body {
         color: #F3F4F6;
+    }
+
+    /* Scope Inter font-family to text elements only */
+    p, label, h1, h2, h3, h4, li, td, th, input, textarea, button,
+    [data-testid="stMarkdownContainer"] {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     code, kbd, samp, pre, [class*="stCode"] {
         font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    /* Restore Streamlit Material Symbols icon font */
+    [data-testid="stIconMaterial"],
+    span[class*="material"],
+    .material-icons,
+    .material-symbols-rounded {
+        font-family: "Material Symbols Rounded" !important;
+        font-feature-settings: "liga" !important;
+        -webkit-font-feature-settings: "liga" !important;
+        letter-spacing: normal !important;
+        text-transform: none !important;
     }
 
     /* Reduced weight for section subheadings: ~1.15rem, muted slate */
